@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Player_FPS : MonoBehaviour
 {
@@ -90,6 +91,7 @@ public class Player_FPS : MonoBehaviour
             {
                 prevHit.GetComponent<Renderer>().material.SetFloat("_enable1", 0f);
                 prevHit.GetComponent<BodyPart>().MouseOff();
+                GameManager.thisManager.Stats.SetActive(false);
             }
             if (Vector3.Distance(transform.position, hit.transform.position) <= interactDist)
             {
@@ -98,6 +100,7 @@ public class Player_FPS : MonoBehaviour
                     hitGO.GetComponent<Renderer>().material.SetFloat("_enable1", 1f);
                     hitGO.GetComponent<BodyPart>().MousedOver();
                     prevHit = hitGO;
+                    GameManager.thisManager.SetStats(hitGO.name);
                 }
             }
         }
@@ -156,7 +159,10 @@ public class Player_FPS : MonoBehaviour
         {
             if (hit.transform.tag == "EnemyPart")
             {
-                hit.transform.GetComponentInParent<Enemy_Base>().Damage();
+                hit.transform.GetComponentInParent<Enemy_Base>().Damage(hit.transform);
+                //i want knockbackkk!!!!
+                //hit.transform.GetComponentInParent<NavMeshAgent>().Stop();
+                //hit.transform.GetComponentInParent<>
             }
         }
     }

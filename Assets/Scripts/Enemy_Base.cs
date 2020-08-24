@@ -18,6 +18,7 @@ public class Enemy_Base : MonoBehaviour
     private RaycastHit hit;
     private Ray ray;
     [SerializeField] private Renderer[] thisRender;
+    private Transform lasthitted;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,13 +59,19 @@ public class Enemy_Base : MonoBehaviour
             }
         }
     }
-    public void Damage()
+    public void Damage(Transform hitted)
     {
         foreach (Renderer renderer in thisRender)
         {
             renderer.material.SetColor("_Color", Color.red);
         }
-        Invoke("ResetRend", 0.5f);
+        HP--;
+        if (HP <= 0)
+        {
+            lasthitted = hitted;
+            Death();
+        }
+        Invoke("ResetRend", 0.3f);
     }
     public void Death()
     {
@@ -74,12 +81,14 @@ public class Enemy_Base : MonoBehaviour
             child.gameObject.tag = "FallenPart";
         }
         transform.DetachChildren();
-        Destroy(gameObject);
+        Destroy(gameObject,1);
+        Destroy(lasthitted.gameObject);
     }
     public void ResetRend()
     {
         foreach (Renderer renderer in thisRender)
-        {
+        {   
+            if (renderer != null)
             renderer.material.SetColor("_Color", defaultcolor);
         }
     }
