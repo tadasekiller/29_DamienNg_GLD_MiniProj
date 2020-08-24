@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Sample_ThirdPerson.unity
+- path: Assets/Scenes/Sample_FPS.unity
   isLoaded: 1
   isActive: 1
